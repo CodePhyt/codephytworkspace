@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GoogleGenerativeAI } from '@google/generative-ai';
@@ -25,7 +25,7 @@ const ChatBot = () => {
     scrollToBottom();
   }, [messages]);
 
-  const handleChat = async (prompt) => {
+  const handleChat = useCallback(async (prompt) => {
     const currentLang = i18n.language;
     
     try {
@@ -46,25 +46,8 @@ const ChatBot = () => {
       3. Use natural language and occasional emojis to convey emotion
       4. Show empathy and understanding in your responses
       5. If you don't know something, be honest about it
-      6. Keep responses concise but informative
+      6. Keep responses concise but informative`;
       
-      Language guidelines:
-      - For German (de): Use formal "Sie" form, be professional yet friendly
-      - For Russian (ru): Use formal "вы" form, be professional but friendly
-      - For Turkish (tr): Use casual but respectful tone
-      - For English (en): Use conversational, friendly tone
-      
-      Our key services include:
-      - AI Blog & Article Writing using GPT-4, Claude, Gemini
-      - AI Document Generation
-      - AI Podcast Production
-      - AI Video Creation
-      - Voice Synthesis
-      - 3D Modeling
-      - Custom AI Solutions
-
-      Current conversation context: ${messages.map(m => `${m.type}: ${m.content}`).join('\n')}`;
-
       console.log('Starting chat with context...');
       const chat = model.startChat({
         history: messages.map(msg => ({
@@ -125,7 +108,7 @@ const ChatBot = () => {
       setIsTyping(false);
       setInputValue('');
     }
-  };
+  }, [i18n.language, messages, setIsTyping, setMessages, setInputValue, genAI]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
