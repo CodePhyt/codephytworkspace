@@ -1,0 +1,43 @@
+{
+  "hero": {
+    "title": "Osman Kadir DE",
+    "roles": {
+      "role1": "Yapay Zeka Çözüm Mimarı",
+      "role2": "Full-Stack YZ Entegratörü",
+      "role3": "Yaratıcı Teknoloji Uzmanı"
+    }
+  },
+  "tools": {
+    "title": "YZ Araçları Ağı",
+    "categories": {
+      "core": "Temel Araçlar",
+      "framework": "Frameworks",
+      "infra": "Altyapı",
+      "experimental": "Deneysel"
+    }
+  },
+  "services": {
+    "title": "Hizmetler",
+    "web": {
+      "title": "Özel Web Geliştirme",
+      "description": "En son YZ entegrasyonuyla modern, duyarlı web uygulamaları geliştirme."
+    },
+    "audio": {
+      "title": "YZ Müzik Üretimi",
+      "description": "Gelişmiş YZ algoritmaları ile benzersiz ses manzaraları ve müzik oluşturun."
+    },
+    "vision": {
+      "title": "Bilgisayarlı Görü Çözümleri",
+      "description": "En son YZ modelleri ile gelişmiş görüntü işleme ve analiz."
+    },
+    "nlp": {
+      "title": "Doğal Dil İşleme",
+      "description": "Gelişmiş dil modelleri ile güçlendirilmiş metin analizi, üretimi ve anlama."
+    }
+  },
+  "chat": {
+    "placeholder": "Bana bir şey sorun...",
+    "send": "Gönder",
+    "loading": "YZ düşünüyor..."
+  }
+}

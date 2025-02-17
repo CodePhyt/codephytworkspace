@@ -1,0 +1,84 @@
+.language-selector-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+}
+
+.language-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.language-toggle:hover {
+  background: rgba(99, 102, 241, 0.2);
+}
+
+.language-selector {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 0.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  min-width: 150px;
+}
+
+.language-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.language-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.language-button.active {
+  background: rgba(99, 102, 241, 0.2);
+}
+
+.flag {
+  font-size: 1.2rem;
+}
+
+.lang-name {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .language-selector-container {
+    top: auto;
+    bottom: 1rem;
+    right: 1rem;
+  }
+
+  .language-selector {
+    bottom: calc(100% + 0.5rem);
+    top: auto;
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "hero": {
+    "title": "Osman Kadir DE",
+    "roles": {
+      "role1": "KI-Lösungsarchitekt",
+      "role2": "Full-Stack KI-Integrator",
+      "role3": "Kreativer Technologe"
+    }
+  },
+  "tools": {
+    "title": "KI-Tools Netzwerk",
+    "categories": {
+      "core": "Kern-Tools",
+      "framework": "Frameworks",
+      "infra": "Infrastruktur",
+      "experimental": "Experimentell"
+    }
+  },
+  "services": {
+    "title": "Dienstleistungen",
+    "web": {
+      "title": "Individuelle Webentwicklung",
+      "description": "Entwicklung moderner, responsiver Webanwendungen mit modernster KI-Integration."
+    },
+    "audio": {
+      "title": "KI-Musikgenerierung",
+      "description": "Erstellen Sie einzigartige Klanglandschaften und Musik mit fortschrittlichen KI-Algorithmen."
+    },
+    "vision": {
+      "title": "Computer Vision Lösungen",
+      "description": "Fortschrittliche Bildverarbeitung und -analyse mit modernsten KI-Modellen."
+    },
+    "nlp": {
+      "title": "Verarbeitung natürlicher Sprache",
+      "description": "Textanalyse, -generierung und -verständnis, unterstützt durch fortschrittliche Sprachmodelle."
+    }
+  },
+  "chat": {
+    "placeholder": "Fragen Sie mich etwas...",
+    "send": "Senden",
+    "loading": "KI denkt nach..."
+  }
+}
