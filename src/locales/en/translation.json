@@ -35,6 +35,19 @@
       "description": "Text analysis, generation, and understanding powered by advanced language models."
     }
   },
+  "projects": {
+    "title": "Featured Projects",
+    "items": {
+      "sofity": {
+        "title": "Sofity",
+        "description": "A modern web application showcasing innovative features and responsive design"
+      },
+      "portfolio": {
+        "title": "Personal Portfolio",
+        "description": "A professional portfolio website demonstrating skills and projects"
+      }
+    }
+  },
   "chat": {
     "placeholder": "Ask me anything...",
     "send": "Send",

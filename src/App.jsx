@@ -5,6 +5,7 @@ import ServiceGrid from './components/ServiceGrid';
 import ChatBot from './components/ChatBot';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import ToolsShowcase from './components/ToolsShowcase';
+import Projects from './components/Projects';
 import './i18n';
 import './styles/App.css';
 
@@ -16,6 +17,7 @@ function App() {
       <Skills />
       <ToolsShowcase />
       <ServiceGrid />
+      <Projects />
       <ChatBot />
     </div>
   );
