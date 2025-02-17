@@ -108,7 +108,7 @@ const ChatBot = () => {
       setIsTyping(false);
       setInputValue('');
     }
-  }, [i18n.language, messages, setIsTyping, setMessages, setInputValue, genAI]);
+  }, [i18n.language, messages, setIsTyping, setMessages, setInputValue]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
