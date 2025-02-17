@@ -2,26 +2,30 @@
   position: fixed;
   top: 1rem;
   right: 1rem;
-  z-index: 1000;
+  z-index: 9999;
 }
 
 .language-toggle {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(99, 102, 241, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(99, 102, 241, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .language-toggle:hover {
-  background: rgba(99, 102, 241, 0.2);
+  background: rgba(99, 102, 241, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
 
 .language-selector {
@@ -31,38 +35,42 @@
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(15, 15, 26, 0.95);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   padding: 0.5rem;
   border-radius: 0.75rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
   min-width: 150px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .language-button {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1rem;
   border: none;
   background: transparent;
   color: white;
   cursor: pointer;
   border-radius: 0.5rem;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
   width: 100%;
-  justify-content: flex-start;
+  text-align: left;
 }
 
 .language-button:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.language-button.active {
   background: rgba(99, 102, 241, 0.2);
 }
 
-.flag {
+.language-button.active {
+  background: rgba(99, 102, 241, 0.3);
+  font-weight: 500;
+}
+
+.language-button .flag {
   font-size: 1.2rem;
 }
 
@@ -70,15 +78,26 @@
   font-size: 0.9rem;
 }
 
-@media (max-width: 768px) {
+/* Mobile Optimization */
+@media screen and (max-width: 768px) {
   .language-selector-container {
-    top: auto;
-    bottom: 1rem;
-    right: 1rem;
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+
+  .language-toggle {
+    width: 36px;
+    height: 36px;
   }
 
   .language-selector {
-    bottom: calc(100% + 0.5rem);
-    top: auto;
+    top: calc(100% + 0.25rem);
+    right: 0;
+    max-width: calc(100vw - 2rem);
+    width: 200px;
+  }
+
+  .language-button {
+    padding: 0.625rem 0.875rem;
   }
 }
