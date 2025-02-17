@@ -8,9 +8,9 @@
     }
   },
   "tools": {
-    "title": "KI-Tools Netzwerk",
+    "title": "KI-Werkzeugnetzwerk",
     "categories": {
-      "core": "Kern-Tools",
+      "core": "Kernwerkzeuge",
       "framework": "Frameworks",
       "infra": "Infrastruktur",
       "experimental": "Experimentell"
@@ -32,11 +32,32 @@
     },
     "nlp": {
       "title": "Verarbeitung natürlicher Sprache",
-      "description": "Textanalyse, -generierung und -verständnis, unterstützt durch fortschrittliche Sprachmodelle."
+      "description": "Textanalyse, -generierung und -verständnis mit fortschrittlichen Sprachmodellen."
+    }
+  },
+  "projects": {
+    "title": "Ausgewählte Projekte ",
+    "items": {
+      "sofity": {
+        "title": "Sofity ",
+        "description": "Eine moderne Webanwendung mit innovativen Funktionen und responsivem Design"
+      },
+      "portfolio": {
+        "title": "Persönliches Portfolio ",
+        "description": "Eine professionelle Portfolio-Website zur Präsentation von Fähigkeiten und Projekten"
+      }
+    },
+    "technologies": {
+      "react": "React",
+      "javascript": "JavaScript",
+      "css": "CSS3",
+      "responsive": "Responsives Design",
+      "threejs": "Three.js",
+      "framer": "Framer Motion"
     }
   },
   "chat": {
-    "placeholder": "Fragen Sie mich etwas...",
+    "placeholder": "Fragen Sie etwas...",
     "send": "Senden",
     "loading": "KI denkt nach..."
   }

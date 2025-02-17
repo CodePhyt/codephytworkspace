@@ -35,6 +35,27 @@
       "description": "Gelişmiş dil modelleri ile güçlendirilmiş metin analizi, üretimi ve anlama."
     }
   },
+  "projects": {
+    "title": "Öne Çıkan Projeler ",
+    "items": {
+      "sofity": {
+        "title": "Sofity ",
+        "description": "Yenilikçi özellikler ve duyarlı tasarım sergileyen modern bir web uygulaması"
+      },
+      "portfolio": {
+        "title": "Kişisel Portfolyo ",
+        "description": "Becerileri ve projeleri sergileyen profesyonel bir portfolyo web sitesi"
+      }
+    },
+    "technologies": {
+      "react": "React",
+      "javascript": "JavaScript",
+      "css": "CSS3",
+      "responsive": "Duyarlı Tasarım",
+      "threejs": "Three.js",
+      "framer": "Framer Motion"
+    }
+  },
   "chat": {
     "placeholder": "Bana bir şey sorun...",
     "send": "Gönder",
