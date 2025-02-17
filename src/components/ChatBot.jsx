@@ -138,7 +138,7 @@ const ChatBot = () => {
     if (isOpen && messages.length === 0) {
       handleChat('Hello');
     }
-  }, [isOpen]);
+  }, [isOpen, handleChat, messages.length]);
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
