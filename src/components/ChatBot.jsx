@@ -27,73 +27,93 @@ const ChatBot = () => {
   }, [messages]);
 
   const handleChat = useCallback(async (prompt) => {
-    const currentLang = i18n.language;
-    
-    try {
-      setIsTyping(true);
-      
-      // Add user message to chat
-      const userMessage = { type: 'user', content: prompt };
-      setMessages(prev => [...prev, userMessage]);
+    const maxRetries = 3;
+    const retryDelay = 1000; // 1 second
 
-      console.log('Initializing chat with Gemini...', { apiKey: API_KEY });
-      // Generate response using Gemini
-      const model = genAI.getGenerativeModel({ 
-        model: "gemini-pro",
-        generationConfig: {
-          maxOutputTokens: 250,
-          temperature: 0.8,
-          topP: 0.8,
-          topK: 40,
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        setIsTyping(true);
+        
+        // Add user message to chat only on first attempt
+        if (attempt === 1) {
+          const userMessage = { type: 'user', content: prompt };
+          setMessages(prev => [...prev, userMessage]);
         }
-      });
-      
-      console.log('Model initialized successfully');
-      
-      const context = `You are Arif, a friendly and knowledgeable AI assistant who specializes in AI technologies and solutions. 
-      Important guidelines:
-      1. Current user's language is ${currentLang} - detect and respond in the same language as their input
-      2. Keep responses conversational, warm, and engaging - like chatting with a friend
-      3. Use natural language and occasional emojis to convey emotion
-      4. Show empathy and understanding in your responses
-      5. If you don't know something, be honest about it
-      6. Keep responses concise but informative`;
-      
-      console.log('Starting chat with context...');
-      const chat = model.startChat({
-        history: messages.map(msg => ({
-          role: msg.type === 'user' ? 'user' : 'model',
-          parts: msg.content,
-        }))
-      });
 
-      console.log('Sending message to Gemini...');
-      const result = await chat.sendMessage(context + "\n\nUser: " + prompt);
-      console.log('Received response from Gemini:', result);
-      const response = await result.response.text();
+        console.log(`Attempt ${attempt}/${maxRetries}: Initializing chat with Gemini...`, { apiKey: API_KEY });
+        // Generate response using Gemini
+        const model = genAI.getGenerativeModel({ 
+          model: "gemini-pro",
+          generationConfig: {
+            maxOutputTokens: 250,
+            temperature: 0.8,
+            topP: 0.8,
+            topK: 40,
+          }
+        });
+        
+        console.log('Model initialized successfully');
+        
+        const currentLang = i18n.language;
+        const context = `You are Arif, a friendly and knowledgeable AI assistant who specializes in AI technologies and solutions. 
+        Important guidelines:
+        1. Current user's language is ${currentLang} - detect and respond in the same language as their input
+        2. Keep responses conversational, warm, and engaging - like chatting with a friend
+        3. Use natural language and occasional emojis to convey emotion
+        4. Show empathy and understanding in your responses
+        5. If you don't know something, be honest about it
+        6. Keep responses concise but informative
+        7. For booking calls, direct users to: https://osmankadir.youcanbook.me/`;
+        
+        console.log('Starting chat with context...');
+        const chat = model.startChat({
+          history: messages.map(msg => ({
+            role: msg.type === 'user' ? 'user' : 'model',
+            parts: msg.content,
+          }))
+        });
 
-      // Add AI response to chat
-      const aiMessage = { type: 'bot', content: response };
-      setMessages(prev => [...prev, aiMessage]);
-    } catch (error) {
-      console.error('Detailed error in chat:', {
-        error: error,
-        message: error.message,
-        stack: error.stack,
-        status: error.status,
-        details: error.details
-      });
-      
-      let errorMessage = { 
-        type: 'error',
-        content: `Error: ${error.message}. Please try again or contact support if the issue persists.`
-      };
-      
-      setMessages(prev => [...prev, errorMessage]);
-    } finally {
-      setIsTyping(false);
-      setInputValue('');
+        console.log('Sending message to Gemini...');
+        const result = await chat.sendMessage(context + "\n\nUser: " + prompt);
+        console.log('Received response from Gemini:', result);
+        const response = await result.response.text();
+
+        // Add AI response to chat
+        const aiMessage = { type: 'bot', content: response };
+        setMessages(prev => [...prev, aiMessage]);
+        break; // Success, exit retry loop
+      } catch (error) {
+        console.error(`Attempt ${attempt}/${maxRetries} failed:`, {
+          error: error,
+          message: error.message,
+          stack: error.stack,
+          status: error.status,
+          details: error.details
+        });
+        
+        // If this is a 503 error and we haven't exhausted retries, wait and try again
+        if (error.message?.includes('503') && attempt < maxRetries) {
+          console.log(`Retrying in ${retryDelay}ms...`);
+          await sleep(retryDelay);
+          continue;
+        }
+
+        // If we've exhausted retries or it's a different error, show error message
+        if (attempt === maxRetries || !error.message?.includes('503')) {
+          let errorMessage = { 
+            type: 'error',
+            content: error.message?.includes('503') 
+              ? "The AI service is currently busy. Please try again in a moment."
+              : `Error: ${error.message}. Please try again or contact support if the issue persists.`
+          };
+          setMessages(prev => [...prev, errorMessage]);
+        }
+      }
     }
+    setIsTyping(false);
+    setInputValue('');
   }, [i18n.language, messages, setIsTyping, setMessages, setInputValue]);
 
   const handleSubmit = (e) => {
