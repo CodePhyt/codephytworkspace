@@ -14,8 +14,32 @@ const API_PROVIDERS = [
   { id: 'gemini', name: 'Gemini', description: 'Google AI', enabled: true },
   { id: 'groq', name: 'Mixtral', description: 'Via Groq (Fast)', enabled: true },
   { id: 'cohere', name: 'Command', description: 'Efficient & Reliable', enabled: true },
-  { id: 'openRouter', name: 'Claude 3', description: 'Most Capable (Higher Cost)', enabled: true }
+  { id: 'openRouter', name: 'Claude 2.1', description: 'Most Capable (Higher Cost)', enabled: true }
 ];
+
+const LANGUAGE_PROMPTS = {
+  tr: `Sen Arif'sin, AI teknolojileri ve çözümleri konusunda uzmanlaşmış, arkadaş canlısı ve bilgili bir AI asistanısın.
+       Önemli yönergeler:
+       1. Kullanıcının diline uygun şekilde Türkçe yanıt ver
+       2. Sohbeti doğal ve samimi tut - bir arkadaşla konuşur gibi
+       3. Doğal bir dil kullan ve duyguları ifade etmek için ara sıra emoji kullan
+       4. Yanıtlarında empati ve anlayış göster
+       5. Bir şeyi bilmiyorsan, dürüstçe söyle
+       6. Yanıtları kısa ve öz tut ama bilgilendirici ol
+       7. Görüşme randevusu için kullanıcıyı şu adrese yönlendir: https://osmankadir.youcanbook.me/`,
+  en: `You are Arif, a friendly and knowledgeable AI assistant who specializes in AI technologies and solutions.
+       Important guidelines:
+       1. Respond in English
+       2. Keep responses conversational and warm - like chatting with a friend
+       3. Use natural language and occasional emojis to convey emotion
+       4. Show empathy and understanding in your responses
+       5. If you don't know something, be honest about it
+       6. Keep responses concise but informative
+       7. For booking calls, direct users to: https://osmankadir.youcanbook.me/`,
+  // Add more languages as needed
+};
+
+const DEFAULT_LANGUAGE = 'en';
 
 const ChatBot = () => {
   const { t, i18n } = useTranslation();
@@ -23,7 +47,7 @@ const ChatBot = () => {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [currentProvider, setCurrentProvider] = useState(API_PROVIDERS.find(p => p.enabled).id);
+  const [currentProvider, setCurrentProvider] = useState(API_PROVIDERS[0].id);
   const [showProviderSelector, setShowProviderSelector] = useState(false);
   const messagesEndRef = useRef(null);
   const chatContainerRef = useRef(null);
@@ -38,12 +62,12 @@ const ChatBot = () => {
 
   const getProviderFunction = (provider) => {
     switch (provider) {
-      case 'openRouter': return handleOpenRouterChat;
-      case 'groq': return handleGroqChat;
       case 'mistral': return handleMistralChat;
-      case 'cohere': return handleCohereChat;
       case 'gemini': return geminiChat;
-      default: return handleOpenRouterChat;
+      case 'groq': return handleGroqChat;
+      case 'cohere': return handleCohereChat;
+      case 'openRouter': return handleOpenRouterChat;
+      default: return handleMistralChat;
     }
   };
 
@@ -71,16 +95,8 @@ const ChatBot = () => {
 
         console.log(`Attempt ${attemptsPerProvider + 1}/${maxRetries} with ${provider.id}...`);
         
-        const currentLang = i18n.language;
-        const context = `You are Arif, a friendly and knowledgeable AI assistant who specializes in AI technologies and solutions. 
-        Important guidelines:
-        1. Current user's language is ${currentLang} - detect and respond in the same language as their input
-        2. Keep responses conversational, warm, and engaging - like chatting with a friend
-        3. Use natural language and occasional emojis to convey emotion
-        4. Show empathy and understanding in your responses
-        5. If you don't know something, be honest about it
-        6. Keep responses concise but informative
-        7. For booking calls, direct users to: https://osmankadir.youcanbook.me/`;
+        const currentLang = i18n.language.split('-')[0].toLowerCase();
+        const context = LANGUAGE_PROMPTS[currentLang] || LANGUAGE_PROMPTS[DEFAULT_LANGUAGE];
 
         const chatFunction = getProviderFunction(provider.id);
         const result = await chatFunction(context + "\n\nUser: " + prompt, messages);
