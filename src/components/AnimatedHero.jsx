@@ -10,6 +10,22 @@ const AnimatedHero = () => {
 
   return (
     <div className="hero-container relative min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-600 to-indigo-600">
+      {/* Pricing Button in Top Right */}
+      <motion.div
+        className="absolute top-4 right-4 z-20"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Link
+          to="/pricing"
+          className="pricing-button-float"
+        >
+          <FaRegMoneyBillAlt className="text-xl mr-2" />
+          <span>{t('hero.viewPricing')}</span>
+        </Link>
+      </motion.div>
+
       <div className="hero-content text-center text-white z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -23,32 +39,21 @@ const AnimatedHero = () => {
             {t('hero.subtitle')}
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <motion.a
-              href="https://osmankadir.youcanbook.me/"
+          <motion.div
+            className="flex justify-center"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <a
+              href="https://calendly.com/osmankadir"
               target="_blank"
               rel="noopener noreferrer"
               className="hero-button primary-button"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               <FaCalendar className="text-xl mr-2" />
               <span>{t('hero.bookMeeting')}</span>
-            </motion.a>
-
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Link
-                to="/pricing"
-                className="hero-button secondary-button"
-              >
-                <FaRegMoneyBillAlt className="text-xl mr-2" />
-                <span>{t('hero.viewPricing')}</span>
-              </Link>
-            </motion.div>
-          </div>
+            </a>
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0 }}
