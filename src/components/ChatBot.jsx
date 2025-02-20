@@ -55,6 +55,7 @@ const ChatBot = () => {
 
     let providerIndex = API_PROVIDERS.indexOf(currentProvider);
     let attemptsPerProvider = 0;
+    let results = [];
 
     while (attemptsPerProvider < maxRetries) {
       try {
@@ -84,12 +85,10 @@ const ChatBot = () => {
         const result = await chatFunction(context + "\n\nUser: " + prompt, messages);
         
         if (result.status === 'success') {
-          const aiMessage = { type: 'bot', content: result.response };
-          setMessages(prev => [...prev, aiMessage]);
-          return; // Success, exit the function
+          results.push(result.response);
+        } else {
+          throw new Error(result.error || 'Unknown error');
         }
-
-        throw new Error(result.error || 'Unknown error');
       } catch (error) {
         console.error(`Error with ${API_PROVIDERS[providerIndex]}:`, error);
         
@@ -113,6 +112,11 @@ const ChatBot = () => {
           }
         }
       }
+    }
+
+    if (results.length > 0) {
+      const aiMessage = { type: 'bot', content: results.join('\n') };
+      setMessages(prev => [...prev, aiMessage]);
     }
 
     setIsTyping(false);

@@ -29,15 +29,17 @@ const AnimatedHero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
-          <a 
-            href="https://osmankadir.youcanbook.me/" 
-            target="_blank" 
+          <motion.a
+            href="https://osmankadir.youcanbook.me/"
+            target="_blank"
             rel="noopener noreferrer"
-            className="book-meeting"
+            className="book-meeting-btn"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             <FaCalendar />
             <span>{t('hero.bookMeeting')}</span>
-          </a>
+          </motion.a>
         </motion.div>
 
         <motion.div
