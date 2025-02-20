@@ -62,7 +62,7 @@ const ChatBot = () => {
       console.log('Starting chat with context...');
       const chat = model.startChat({
         history: messages.map(msg => ({
-          role: msg.type === 'user' ? 'user' : 'assistant',
+          role: msg.type === 'user' ? 'user' : 'model',
           parts: msg.content,
         }))
       });
