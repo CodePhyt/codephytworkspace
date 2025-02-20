@@ -10,11 +10,11 @@ import { handleCohereChat } from '../utils/cohere';
 import '../styles/ChatBot.css';
 
 const API_PROVIDERS = [
-  { id: 'openRouter', name: 'Claude 3', description: 'Anthropic Claude 3 (via OpenRouter)', enabled: true },
-  { id: 'groq', name: 'Mixtral', description: 'Mixtral 8x7B (via Groq)', enabled: true },
-  { id: 'mistral', name: 'Mistral', description: 'Mistral Large', enabled: true },
-  { id: 'cohere', name: 'Command', description: 'Cohere Command', enabled: true },
-  { id: 'gemini', name: 'Gemini', description: 'Google Gemini Pro (Currently Overloaded)', enabled: false }
+  { id: 'mistral', name: 'Mistral', description: 'Fast & Efficient', enabled: true },
+  { id: 'gemini', name: 'Gemini', description: 'Google AI', enabled: true },
+  { id: 'groq', name: 'Mixtral', description: 'Via Groq (Fast)', enabled: true },
+  { id: 'cohere', name: 'Command', description: 'Efficient & Reliable', enabled: true },
+  { id: 'openRouter', name: 'Claude 3', description: 'Most Capable (Higher Cost)', enabled: true }
 ];
 
 const ChatBot = () => {

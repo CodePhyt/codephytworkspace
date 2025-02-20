@@ -11,7 +11,7 @@ export const handleOpenRouterChat = async (prompt, history = []) => {
         'X-Title': 'Arif AI Assistant'
       },
       body: JSON.stringify({
-        model: 'anthropic/claude-3-opus',
+        model: 'anthropic/claude-2.1',  // Using claude-2.1 instead of claude-3 for better cost efficiency
         messages: [
           ...history.map(msg => ({
             role: msg.type === 'user' ? 'user' : 'assistant',

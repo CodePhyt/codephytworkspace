@@ -14,10 +14,12 @@ export const handleMistralChat = async (prompt, history = []) => {
     ];
 
     const completion = await client.chat({
-      model: 'mistral-large-latest',
+      model: 'mistral-small',  // Using smaller, more efficient model
       messages,
       temperature: 0.7,
-      maxTokens: 1000
+      maxTokens: 1000,
+      topP: 0.95,
+      safeMode: false
     });
 
     return {
