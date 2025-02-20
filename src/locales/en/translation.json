@@ -75,5 +75,40 @@
     "delete": "Delete",
     "save": "Save",
     "cancel": "Cancel"
+  },
+  "pricing": {
+    "title": "Professional Consultation Services",
+    "subtitle": "Expert AI consultation tailored to your needs",
+    "consultationTitle": "Consultation Sessions",
+    "supportPackagesTitle": "Support Packages",
+    "minutes": "Minutes",
+    "session": "session",
+    "free": "Free",
+    "bookNow": "Book Now",
+    "contactUs": "Contact Us",
+    "hoursIncluded": "hours included",
+    "savings": "savings vs. hourly rate",
+    "discovery": "Discovery Call: A brief introductory session to discuss your needs",
+    "quick": "Quick Consultation: Focused, efficient problem-solving for specific questions",
+    "focused": "Focused Session: In-depth discussion of a single AI-related challenge",
+    "standard": "Standard Consultation: Comprehensive discussion with strategy outline",
+    "extended": "Extended Consultation: Includes detailed recommendations",
+    "complete": "Complete Consultation: Full strategic planning with implementation roadmap",
+    "dailySupport": "Daily Support Package",
+    "weeklySupport": "Weekly Support Package",
+    "monthlySupport": "Monthly Support Package",
+    "daily": "day",
+    "weekly": "week",
+    "monthly": "month",
+    "dailyFeatures": "Priority support and same-day response",
+    "weeklyFeatures": "Flexible scheduling and weekly strategy sessions",
+    "monthlyFeatures": "Comprehensive coverage and dedicated support team"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "pricing": "Pricing",
+    "contact": "Contact"
   }
 }

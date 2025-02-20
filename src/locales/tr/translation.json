@@ -72,5 +72,40 @@
     "delete": "Sil",
     "save": "Kaydet",
     "cancel": "İptal"
+  },
+  "pricing": {
+    "title": "Profesyonel Danışmanlık Hizmetleri",
+    "subtitle": "İhtiyaçlarınıza özel AI danışmanlığı",
+    "consultationTitle": "Danışmanlık Seansları",
+    "supportPackagesTitle": "Destek Paketleri",
+    "minutes": "Dakika",
+    "session": "seans",
+    "free": "Ücretsiz",
+    "bookNow": "Hemen Rezervasyon Yap",
+    "contactUs": "Bize Ulaşın",
+    "hoursIncluded": "saat dahil",
+    "savings": "saatlik ücrete göre tasarruf",
+    "discovery": "Keşif Görüşmesi: İhtiyaçlarınızı anlamak için kısa bir tanışma seansı",
+    "quick": "Hızlı Danışmanlık: Belirli sorular için odaklanmış, verimli problem çözümü",
+    "focused": "Odaklanmış Seans: Tek bir AI konusu üzerine detaylı tartışma",
+    "standard": "Standart Danışmanlık: Strateji taslağı ile kapsamlı görüşme",
+    "extended": "Genişletilmiş Danışmanlık: Detaylı öneriler dahil",
+    "complete": "Tam Danışmanlık: Uygulama planı ile tam stratejik planlama",
+    "dailySupport": "Günlük Destek Paketi",
+    "weeklySupport": "Haftalık Destek Paketi",
+    "monthlySupport": "Aylık Destek Paketi",
+    "daily": "gün",
+    "weekly": "hafta",
+    "monthly": "ay",
+    "dailyFeatures": "Öncelikli destek ve aynı gün yanıt",
+    "weeklyFeatures": "Esnek planlama ve haftalık strateji oturumları",
+    "monthlyFeatures": "Kapsamlı kapsam ve özel destek ekibi"
+  },
+  "nav": {
+    "home": "Ana Sayfa",
+    "about": "Hakkımızda",
+    "services": "Hizmetler",
+    "pricing": "Fiyatlandırma",
+    "contact": "İletişim"
   }
 }
