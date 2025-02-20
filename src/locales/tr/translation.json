@@ -5,7 +5,11 @@
       "role1": "Yapay Zeka Çözüm Mimarı",
       "role2": "Full-Stack YZ Entegratörü",
       "role3": "Yaratıcı Teknoloji Uzmanı"
-    }
+    },
+    "subtitle": "İşletmeleri en son AI teknolojisi ve uzman danışmanlık ile güçlendiriyoruz",
+    "bookMeeting": "Görüşme Planla",
+    "viewPricing": "Fiyatları Gör",
+    "description": "İşletmelerin AI teknolojisinden yararlanmasına yardımcı oluyoruz"
   },
   "tools": {
     "title": "YZ Araçları Ağı",

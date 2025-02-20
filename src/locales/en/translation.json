@@ -1,6 +1,10 @@
 {
   "hero": {
-    "title": "Osman Kadir DE",
+    "title": "AI Solutions Expert",
+    "subtitle": "Empowering businesses with cutting-edge AI technology and expert consultation",
+    "bookMeeting": "Book a Meeting",
+    "viewPricing": "View Pricing",
+    "description": "Helping businesses leverage AI technology",
     "roles": {
       "role1": "AI Solutions Architect",
       "role2": "Full-Stack AI Integrator",

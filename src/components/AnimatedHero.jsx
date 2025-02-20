@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { FaGithub, FaLinkedin, FaTwitter, FaCalendar } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaTwitter, FaCalendar, FaRegMoneyBillAlt } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import '../styles/AnimatedHero.css';
 
 const AnimatedHero = () => {
@@ -40,6 +41,18 @@ const AnimatedHero = () => {
             <FaCalendar />
             <span>{t('hero.bookMeeting')}</span>
           </motion.a>
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link
+              to="/pricing"
+              className="inline-flex items-center justify-center px-8 py-3 border border-white text-base font-medium rounded-md text-white hover:bg-white hover:text-blue-600 transition-colors duration-200"
+            >
+              <FaRegMoneyBillAlt className="mr-2" />
+              {t('hero.viewPricing')}
+            </Link>
+          </motion.div>
         </motion.div>
 
         <motion.div
