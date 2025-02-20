@@ -8,6 +8,7 @@
     "@react-three/fiber": "^8.15.12",
     "3d-force-graph": "^1.72.3",
     "framer-motion": "^10.16.16",
+    "groq-sdk": "0.15.0",
     "i18next": "^23.7.16",
     "i18next-browser-languagedetector": "^7.2.2",
     "react": "^18.2.0",

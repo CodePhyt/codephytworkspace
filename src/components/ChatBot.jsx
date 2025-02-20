@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaRobot, FaPaperPlane, FaTimes } from 'react-icons/fa';
 import { handleChat as geminiChat } from '../utils/gemini';
+import { handleGroqChat } from '../utils/groq';
 import '../styles/ChatBot.css';
 
 const ChatBot = () => {
@@ -11,6 +12,7 @@ const ChatBot = () => {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [useGroq, setUseGroq] = useState(false); // Track which API to use
   const messagesEndRef = useRef(null);
   const chatContainerRef = useRef(null);
 
@@ -51,13 +53,27 @@ const ChatBot = () => {
         6. Keep responses concise but informative
         7. For booking calls, direct users to: https://osmankadir.youcanbook.me/`;
 
-        const result = await geminiChat(context + "\n\nUser: " + prompt, messages);
+        // Try primary API first (Gemini or Groq based on state)
+        const result = useGroq 
+          ? await handleGroqChat(context + "\n\nUser: " + prompt, messages)
+          : await geminiChat(context + "\n\nUser: " + prompt, messages);
         
         if (result.status === 'success') {
           // Add AI response to chat
           const aiMessage = { type: 'bot', content: result.response };
           setMessages(prev => [...prev, aiMessage]);
           break; // Success, exit retry loop
+        } else if (!useGroq) {
+          // If Gemini failed, try Groq as fallback
+          console.log('Trying Groq as fallback...');
+          setUseGroq(true);
+          const fallbackResult = await handleGroqChat(context + "\n\nUser: " + prompt, messages);
+          if (fallbackResult.status === 'success') {
+            const aiMessage = { type: 'bot', content: fallbackResult.response };
+            setMessages(prev => [...prev, aiMessage]);
+            break;
+          }
+          throw new Error(fallbackResult.error);
         } else {
           throw new Error(result.error);
         }
@@ -83,12 +99,17 @@ const ChatBot = () => {
               : `Error: ${error.message}. Please try again or contact support if the issue persists.`
           };
           setMessages(prev => [...prev, errorMessage]);
+          
+          // If using Gemini and failed all retries, try switching to Groq
+          if (!useGroq && attempt === maxRetries) {
+            setUseGroq(true);
+          }
         }
       }
     }
     setIsTyping(false);
     setInputValue('');
-  }, [i18n.language, messages]);
+  }, [i18n.language, messages, useGroq]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
