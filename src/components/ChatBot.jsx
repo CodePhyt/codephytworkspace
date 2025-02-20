@@ -6,7 +6,8 @@ import { FaRobot, FaPaperPlane, FaTimes } from 'react-icons/fa';
 import '../styles/ChatBot.css';
 
 // Initialize Gemini AI
-const genAI = new GoogleGenerativeAI('AIzaSyDAACsLpQAfg44a3fRQcR5_Un6zwYwQr_M');
+const API_KEY = 'AIzaSyDAACsLpQAfg44a3fRQcR5_Un6zwYwQr_M';
+const genAI = new GoogleGenerativeAI(API_KEY);
 
 const ChatBot = () => {
   const { t, i18n } = useTranslation();
@@ -35,9 +36,19 @@ const ChatBot = () => {
       const userMessage = { type: 'user', content: prompt };
       setMessages(prev => [...prev, userMessage]);
 
-      console.log('Initializing chat with Gemini...');
+      console.log('Initializing chat with Gemini...', { apiKey: API_KEY });
       // Generate response using Gemini
-      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+      const model = genAI.getGenerativeModel({ 
+        model: "gemini-pro",
+        generationConfig: {
+          maxOutputTokens: 250,
+          temperature: 0.8,
+          topP: 0.8,
+          topK: 40,
+        }
+      });
+      
+      console.log('Model initialized successfully');
       
       const context = `You are Arif, a friendly and knowledgeable AI assistant who specializes in AI technologies and solutions. 
       Important guidelines:
@@ -53,19 +64,13 @@ const ChatBot = () => {
         history: messages.map(msg => ({
           role: msg.type === 'user' ? 'user' : 'assistant',
           parts: msg.content,
-        })),
-        generationConfig: {
-          maxOutputTokens: 250,
-          temperature: 0.8,
-          topP: 0.8,
-          topK: 40,
-        },
+        }))
       });
 
       console.log('Sending message to Gemini...');
       const result = await chat.sendMessage(context + "\n\nUser: " + prompt);
-      console.log('Received response from Gemini');
-      const response = result.response.text();
+      console.log('Received response from Gemini:', result);
+      const response = await result.response.text();
 
       // Add AI response to chat
       const aiMessage = { type: 'bot', content: response };
@@ -81,27 +86,8 @@ const ChatBot = () => {
       
       let errorMessage = { 
         type: 'error',
-        content: ''
+        content: `Error: ${error.message}. Please try again or contact support if the issue persists.`
       };
-
-      // Check for specific error types
-      if (error.message?.includes('API key')) {
-        errorMessage.content = "API key error. Please check the configuration.";
-      } else if (error.message?.includes('PERMISSION_DENIED')) {
-        errorMessage.content = "API access denied. Please verify API key permissions.";
-      } else if (error.message?.includes('quota')) {
-        errorMessage.content = "API quota exceeded. Please try again later.";
-      } else if (error.message?.includes('network')) {
-        errorMessage.content = "Network error. Please check your internet connection.";
-      } else {
-        errorMessage.content = currentLang === 'tr' 
-          ? "Üzgünüm, şu anda bağlantı kurmakta sorun yaşıyorum. Lütfen biraz sonra tekrar deneyin."
-          : currentLang === 'ru'
-          ? "Извините, у меня возникли проблемы с подключением. Пожалуйста, попробуйте позже."
-          : currentLang === 'de'
-          ? "Entschuldigung, ich habe momentan Verbindungsprobleme. Bitte versuchen Sie es später noch einmal."
-          : "I apologize, but I'm having trouble connecting right now. Please try again in a moment.";
-      }
       
       setMessages(prev => [...prev, errorMessage]);
     } finally {
