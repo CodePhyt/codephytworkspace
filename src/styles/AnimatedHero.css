@@ -1,18 +1,19 @@
-.hero {
+.hero-container {
+  position: relative;
   min-height: 100vh;
+  padding: 2rem;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-  padding: 2rem;
   text-align: center;
-  position: relative;
-  overflow: hidden;
 }
 
 .hero-content {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 2rem;
   z-index: 1;
 }
 
@@ -25,33 +26,38 @@
   font-weight: bold;
 }
 
-.booking-button {
-  margin: 2rem 0;
-}
-
-.book-meeting {
+.hero-button {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: white;
-  border-radius: 2rem;
-  text-decoration: none;
+  justify-content: center;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
   font-weight: 500;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  min-width: 200px;
 }
 
-.book-meeting:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
-  border-color: rgba(255, 255, 255, 0.1);
+.primary-button {
+  background-color: white;
+  color: #3B82F6;
+  border: 2px solid white;
 }
 
-.book-meeting svg {
-  width: 20px;
-  height: 20px;
+.primary-button:hover {
+  background-color: #F3F4F6;
+  border-color: #F3F4F6;
+}
+
+.secondary-button {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.secondary-button:hover {
+  background-color: white;
+  color: #3B82F6;
 }
 
 .social-links {
@@ -133,5 +139,12 @@
   .social-icon svg {
     width: 24px;
     height: 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-button {
+    width: 100%;
+    margin-bottom: 1rem;
   }
 }
