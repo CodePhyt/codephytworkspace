@@ -60,5 +60,12 @@
     "placeholder": "Ask me anything...",
     "send": "Send",
     "loading": "AI is thinking..."
+  },
+  "chatbot": {
+    "title": "AI Assistant",
+    "placeholder": "Type your message...",
+    "poweredBy": "Powered by AI",
+    "selectProvider": "Select AI Model",
+    "errorMessage": "I apologize, but I'm having trouble connecting. Please try another AI model or try again later."
   }
 }

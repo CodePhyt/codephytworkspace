@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaRobot, FaPaperPlane, FaTimes } from 'react-icons/fa';
+import { FaRobot, FaPaperPlane, FaTimes, FaCog } from 'react-icons/fa';
 import { handleChat as geminiChat } from '../utils/gemini';
 import { handleGroqChat } from '../utils/groq';
 import { handleOpenRouterChat } from '../utils/openRouter';
@@ -9,8 +9,13 @@ import { handleMistralChat } from '../utils/mistral';
 import { handleCohereChat } from '../utils/cohere';
 import '../styles/ChatBot.css';
 
-// Define API providers in order of preference
-const API_PROVIDERS = ['openRouter', 'groq', 'mistral', 'cohere', 'gemini'];
+const API_PROVIDERS = [
+  { id: 'openRouter', name: 'Claude 3', description: 'Anthropic Claude 3 (via OpenRouter)' },
+  { id: 'groq', name: 'Mixtral', description: 'Mixtral 8x7B (via Groq)' },
+  { id: 'mistral', name: 'Mistral', description: 'Mistral Large' },
+  { id: 'cohere', name: 'Command', description: 'Cohere Command' },
+  { id: 'gemini', name: 'Gemini', description: 'Google Gemini Pro' }
+];
 
 const ChatBot = () => {
   const { t, i18n } = useTranslation();
@@ -18,7 +23,8 @@ const ChatBot = () => {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [currentProvider, setCurrentProvider] = useState(API_PROVIDERS[0]);
+  const [currentProvider, setCurrentProvider] = useState(API_PROVIDERS[0].id);
+  const [showProviderSelector, setShowProviderSelector] = useState(false);
   const messagesEndRef = useRef(null);
   const chatContainerRef = useRef(null);
 
@@ -32,7 +38,7 @@ const ChatBot = () => {
 
   const tryNextProvider = (currentIndex) => {
     const nextIndex = (currentIndex + 1) % API_PROVIDERS.length;
-    setCurrentProvider(API_PROVIDERS[nextIndex]);
+    setCurrentProvider(API_PROVIDERS[nextIndex].id);
     return nextIndex;
   };
 
@@ -53,7 +59,7 @@ const ChatBot = () => {
 
     const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-    let providerIndex = API_PROVIDERS.indexOf(currentProvider);
+    let providerIndex = API_PROVIDERS.findIndex(provider => provider.id === currentProvider);
     let attemptsPerProvider = 0;
     let results = [];
 
@@ -62,12 +68,12 @@ const ChatBot = () => {
         setIsTyping(true);
         
         // Add user message to chat only on first attempt
-        if (attemptsPerProvider === 0 && providerIndex === API_PROVIDERS.indexOf(currentProvider)) {
+        if (attemptsPerProvider === 0 && providerIndex === API_PROVIDERS.findIndex(provider => provider.id === currentProvider)) {
           const userMessage = { type: 'user', content: prompt };
           setMessages(prev => [...prev, userMessage]);
         }
 
-        const provider = API_PROVIDERS[providerIndex];
+        const provider = API_PROVIDERS[providerIndex].id;
         console.log(`Attempt ${attemptsPerProvider + 1}/${maxRetries} with ${provider}...`);
         
         const currentLang = i18n.language;
@@ -90,10 +96,10 @@ const ChatBot = () => {
           throw new Error(result.error || 'Unknown error');
         }
       } catch (error) {
-        console.error(`Error with ${API_PROVIDERS[providerIndex]}:`, error);
+        console.error(`Error with ${API_PROVIDERS[providerIndex].id}:`, error);
         
         if (error.message?.includes('503') && attemptsPerProvider < maxRetries - 1) {
-          console.log(`Retrying ${API_PROVIDERS[providerIndex]} in ${retryDelay}ms...`);
+          console.log(`Retrying ${API_PROVIDERS[providerIndex].id} in ${retryDelay}ms...`);
           await sleep(retryDelay);
           attemptsPerProvider++;
         } else {
@@ -101,7 +107,7 @@ const ChatBot = () => {
           providerIndex = tryNextProvider(providerIndex);
           attemptsPerProvider = 0;
           
-          if (providerIndex === API_PROVIDERS.indexOf(currentProvider)) {
+          if (providerIndex === API_PROVIDERS.findIndex(provider => provider.id === currentProvider)) {
             // We've tried all providers
             let errorMessage = { 
               type: 'error',
@@ -141,86 +147,105 @@ const ChatBot = () => {
   };
 
   return (
-    <div className="chatbot-container">
-      <button 
-        className={`chat-toggle-button ${isOpen ? 'open' : ''}`} 
-        onClick={toggleChat}
-        aria-label="Toggle chat"
-      >
-        {isOpen ? <FaTimes /> : <FaRobot />}
-      </button>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            className="chat-window"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-          >
-            <div className="chat-header">
-              <FaRobot className="chat-icon" />
-              <div className="chat-title">
-                {t('chat.title')}
-              </div>
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className="chatbot-container"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+        >
+          <div className="chatbot-header">
+            <div className="chatbot-title">
+              <FaRobot className="chatbot-icon" />
+              <span>{t('chatbot.title')}</span>
+            </div>
+            <div className="chatbot-controls">
               <button 
-                className="close-button"
-                onClick={toggleChat}
-                aria-label="Close chat"
+                className="provider-selector-button"
+                onClick={() => setShowProviderSelector(!showProviderSelector)}
               >
+                <FaCog />
+              </button>
+              <button className="close-button" onClick={() => setIsOpen(false)}>
                 <FaTimes />
               </button>
             </div>
+          </div>
 
-            <div className="messages-container" ref={chatContainerRef}>
-              {messages.map((message, index) => (
-                <div
-                  key={index}
-                  className={`message ${message.type}`}
-                >
-                  {message.type === 'bot' && <FaRobot className="bot-icon" />}
-                  <div className="message-content">
-                    {message.content}
-                  </div>
-                </div>
-              ))}
-              {isTyping && (
-                <div className="message bot">
-                  <FaRobot className="bot-icon" />
-                  <div className="typing-indicator">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-              )}
-              <div ref={messagesEndRef} />
+          {showProviderSelector && (
+            <div className="provider-selector">
+              <h3>{t('chatbot.selectProvider')}</h3>
+              <div className="provider-list">
+                {API_PROVIDERS.map((provider) => (
+                  <button
+                    key={provider.id}
+                    className={`provider-option ${currentProvider === provider.id ? 'active' : ''}`}
+                    onClick={() => {
+                      setCurrentProvider(provider.id);
+                      setShowProviderSelector(false);
+                    }}
+                  >
+                    <strong>{provider.name}</strong>
+                    <span>{provider.description}</span>
+                  </button>
+                ))}
+              </div>
             </div>
+          )}
 
-            <form onSubmit={handleSubmit} className="chat-input-form">
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                placeholder={t('chat.placeholder')}
-                className="chat-input"
-              />
-              <button 
-                type="submit" 
-                className="send-button"
-                disabled={!inputValue.trim() || isTyping}
-                aria-label="Send message"
+          <div className="chat-messages" ref={chatContainerRef}>
+            {messages.map((message, index) => (
+              <motion.div
+                key={index}
+                className={`message ${message.type}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
               >
-                <FaPaperPlane />
-              </button>
-            </form>
-            <div className="chat-footer">
-              <small>{t('chat.poweredBy')}</small>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+                {message.type === 'bot' && <FaRobot className="bot-icon" />}
+                <div className="message-content">{message.content}</div>
+              </motion.div>
+            ))}
+            {isTyping && (
+              <motion.div
+                className="message bot typing"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                <FaRobot className="bot-icon" />
+                <div className="typing-indicator">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </motion.div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          <form onSubmit={handleSubmit} className="chat-input-form">
+            <input
+              type="text"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder={t('chatbot.placeholder')}
+              className="chat-input"
+            />
+            <button 
+              type="submit" 
+              className="send-button"
+              disabled={!inputValue.trim() || isTyping}
+              aria-label="Send message"
+            >
+              <FaPaperPlane />
+            </button>
+          </form>
+          <div className="chat-footer">
+            <small>{t('chatbot.poweredBy')}</small>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
