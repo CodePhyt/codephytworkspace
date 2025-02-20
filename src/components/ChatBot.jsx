@@ -6,7 +6,7 @@ import { FaRobot, FaPaperPlane, FaTimes } from 'react-icons/fa';
 import '../styles/ChatBot.css';
 
 // Initialize Gemini AI
-const API_KEY = 'AIzaSyDAACsLpQAfg44a3fRQcR5_Un6zwYwQr_M';
+const API_KEY = 'AIzaSyC5jk1jpR7DAcGzRajk8qYTIDxg-uBLwF8';
 const genAI = new GoogleGenerativeAI(API_KEY);
 
 const ChatBot = () => {

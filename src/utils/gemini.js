@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const API_KEY = 'AIzaSyDAACsLpQAfg44a3fRQcR5_Un6zwYwQr_M';
+const API_KEY = 'AIzaSyC5jk1jpR7DAcGzRajk8qYTIDxg-uBLwF8';
 
 if (!API_KEY) {
   console.error('No API key found!');
