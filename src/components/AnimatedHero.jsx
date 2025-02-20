@@ -30,7 +30,7 @@ const AnimatedHero = () => {
           transition={{ duration: 0.8, delay: 0.3 }}
         >
           <a 
-            href="https://codephyt.youcanbook.me/" 
+            href="https://osmankadir.youcanbook.me/" 
             target="_blank" 
             rel="noopener noreferrer"
             className="book-meeting"
