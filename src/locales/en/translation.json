@@ -66,6 +66,14 @@
     "placeholder": "Type your message...",
     "poweredBy": "Powered by AI",
     "selectProvider": "Select AI Model",
+    "close": "Close Chat",
     "errorMessage": "I apologize, but I'm having trouble connecting. Please try another AI model or try again later."
+  },
+  "tooltips": {
+    "copy": "Copy to Clipboard",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel"
   }
 }
