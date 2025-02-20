@@ -1,10 +1,12 @@
 import { CohereClient } from 'cohere-ai';
 
 const API_KEY = 'AcQGHNTP3QfRjMb7BwUwPHUNPgFrRDYNnvEpyaMX';
-const cohere = new CohereClient({ token: API_KEY });
 
 export const handleCohereChat = async (prompt, history = []) => {
   try {
+    const { CohereClient } = await import('cohere-ai');
+    const cohere = new CohereClient({ token: API_KEY });
+
     const response = await cohere.chat({
       message: prompt,
       chatHistory: history.map(msg => ({

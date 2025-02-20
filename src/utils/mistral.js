@@ -1,10 +1,10 @@
-import MistralClient from '@mistralai/mistralai';
-
 const API_KEY = 'jAgzpFJSfh4YAdGaDIoHEKxeLZIVjUZw';
-const client = new MistralClient(API_KEY);
 
 export const handleMistralChat = async (prompt, history = []) => {
   try {
+    const { default: MistralClient } = await import('@mistralai/mistralai');
+    const client = new MistralClient(API_KEY);
+
     const messages = [
       ...history.map(msg => ({
         role: msg.type === 'user' ? 'user' : 'assistant',

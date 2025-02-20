@@ -2,12 +2,11 @@ import { Groq } from 'groq-sdk';
 
 const API_KEY = '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';
 
-const groq = new Groq({
-  apiKey: API_KEY
-});
-
 export const handleGroqChat = async (prompt, history = []) => {
   try {
+    const { Groq } = await import('groq-sdk');
+    const groq = new Groq({ apiKey: API_KEY });
+
     const completion = await groq.chat.completions.create({
       messages: [
         ...history.map(msg => ({

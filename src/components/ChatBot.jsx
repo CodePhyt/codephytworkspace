@@ -10,7 +10,7 @@ import { handleCohereChat } from '../utils/cohere';
 import '../styles/ChatBot.css';
 
 // Define API providers in order of preference
-const API_PROVIDERS = ['gemini', 'openRouter', 'groq', 'mistral', 'cohere'];
+const API_PROVIDERS = ['openRouter', 'groq', 'mistral', 'cohere', 'gemini'];
 
 const ChatBot = () => {
   const { t, i18n } = useTranslation();
@@ -43,7 +43,7 @@ const ChatBot = () => {
       case 'groq': return handleGroqChat;
       case 'mistral': return handleMistralChat;
       case 'cohere': return handleCohereChat;
-      default: return geminiChat;
+      default: return handleOpenRouterChat;
     }
   };
 
@@ -106,7 +106,7 @@ const ChatBot = () => {
             // We've tried all providers
             let errorMessage = { 
               type: 'error',
-              content: "All AI services are currently unavailable. Please try again in a moment."
+              content: "I apologize, but I'm having trouble connecting to the AI services. Please try again in a moment. If you need immediate assistance, you can book a call with me at https://osmankadir.youcanbook.me/"
             };
             setMessages(prev => [...prev, errorMessage]);
             break;
