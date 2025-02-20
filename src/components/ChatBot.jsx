@@ -6,7 +6,7 @@ import { FaRobot, FaPaperPlane, FaTimes } from 'react-icons/fa';
 import '../styles/ChatBot.css';
 
 // Initialize Gemini AI
-const genAI = new GoogleGenerativeAI('AIzaSyBKIv-Ye6do9AeDJwyulqelbSl0ISGuDTw');
+const genAI = new GoogleGenerativeAI('AIzaSyDAACsLpQAfg44a3fRQcR5_Un6zwYwQr_M');
 
 const ChatBot = () => {
   const { t, i18n } = useTranslation();
@@ -37,7 +37,7 @@ const ChatBot = () => {
 
       console.log('Initializing chat with Gemini...');
       // Generate response using Gemini
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
       
       const context = `You are Arif, a friendly and knowledgeable AI assistant who specializes in AI technologies and solutions. 
       Important guidelines:
