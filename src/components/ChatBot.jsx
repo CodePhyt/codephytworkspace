@@ -1,13 +1,9 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import { FaRobot, FaPaperPlane, FaTimes } from 'react-icons/fa';
+import { handleChat as geminiChat } from '../utils/gemini';
 import '../styles/ChatBot.css';
-
-// Initialize Gemini AI
-const API_KEY = 'AIzaSyC5jk1jpR7DAcGzRajk8qYTIDxg-uBLwF8';
-const genAI = new GoogleGenerativeAI(API_KEY);
 
 const ChatBot = () => {
   const { t, i18n } = useTranslation();
@@ -26,7 +22,7 @@ const ChatBot = () => {
     scrollToBottom();
   }, [messages]);
 
-  const handleChat = useCallback(async (prompt) => {
+  const handleChatMessage = useCallback(async (prompt) => {
     const maxRetries = 3;
     const retryDelay = 1000; // 1 second
 
@@ -42,19 +38,7 @@ const ChatBot = () => {
           setMessages(prev => [...prev, userMessage]);
         }
 
-        console.log(`Attempt ${attempt}/${maxRetries}: Initializing chat with Gemini...`, { apiKey: API_KEY });
-        // Generate response using Gemini
-        const model = genAI.getGenerativeModel({ 
-          model: "gemini-pro",
-          generationConfig: {
-            maxOutputTokens: 250,
-            temperature: 0.8,
-            topP: 0.8,
-            topK: 40,
-          }
-        });
-        
-        console.log('Model initialized successfully');
+        console.log(`Attempt ${attempt}/${maxRetries}: Initializing chat...`);
         
         const currentLang = i18n.language;
         const context = `You are Arif, a friendly and knowledgeable AI assistant who specializes in AI technologies and solutions. 
@@ -66,31 +50,21 @@ const ChatBot = () => {
         5. If you don't know something, be honest about it
         6. Keep responses concise but informative
         7. For booking calls, direct users to: https://osmankadir.youcanbook.me/`;
+
+        const result = await geminiChat(context + "\n\nUser: " + prompt, messages);
         
-        console.log('Starting chat with context...');
-        const chat = model.startChat({
-          history: messages.map(msg => ({
-            role: msg.type === 'user' ? 'user' : 'model',
-            parts: msg.content,
-          }))
-        });
-
-        console.log('Sending message to Gemini...');
-        const result = await chat.sendMessage(context + "\n\nUser: " + prompt);
-        console.log('Received response from Gemini:', result);
-        const response = await result.response.text();
-
-        // Add AI response to chat
-        const aiMessage = { type: 'bot', content: response };
-        setMessages(prev => [...prev, aiMessage]);
-        break; // Success, exit retry loop
+        if (result.status === 'success') {
+          // Add AI response to chat
+          const aiMessage = { type: 'bot', content: result.response };
+          setMessages(prev => [...prev, aiMessage]);
+          break; // Success, exit retry loop
+        } else {
+          throw new Error(result.error);
+        }
       } catch (error) {
         console.error(`Attempt ${attempt}/${maxRetries} failed:`, {
           error: error,
-          message: error.message,
-          stack: error.stack,
-          status: error.status,
-          details: error.details
+          message: error.message
         });
         
         // If this is a 503 error and we haven't exhausted retries, wait and try again
@@ -114,20 +88,20 @@ const ChatBot = () => {
     }
     setIsTyping(false);
     setInputValue('');
-  }, [i18n.language, messages, setIsTyping, setMessages, setInputValue]);
+  }, [i18n.language, messages]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (inputValue.trim()) {
-      handleChat(inputValue.trim());
+      handleChatMessage(inputValue.trim());
     }
   };
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
-      handleChat('Hello');
+      handleChatMessage('Hello');
     }
-  }, [isOpen, handleChat, messages.length]);
+  }, [isOpen, handleChatMessage, messages.length]);
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
