@@ -1,6 +1,12 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || 'AIzaSyDAACsLpQAfg44a3fRQcR5_Un6zwYwQr_M';
+const API_KEY = 'AIzaSyDAACsLpQAfg44a3fRQcR5_Un6zwYwQr_M';
+
+if (!API_KEY) {
+  console.error('No API key found!');
+}
+
+console.log('Using API key:', API_KEY);
 
 const genAI = new GoogleGenerativeAI(API_KEY);
 
@@ -57,7 +63,7 @@ export const handleChat = async (prompt, history = []) => {
   } catch (error) {
     console.error('Error in Gemini chat:', error);
     return {
-      response: 'I apologize, but I encountered an error. Please try again.',
+      response: `API Error: ${error.message}. Please contact support.`,
       status: 'error',
       error: error.message
     };
