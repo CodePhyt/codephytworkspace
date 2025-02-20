@@ -18,25 +18,22 @@ const API_PROVIDERS = [
 ];
 
 const LANGUAGE_PROMPTS = {
-  tr: `Sen Arif'sin, AI teknolojileri ve çözümleri konusunda uzmanlaşmış, arkadaş canlısı ve bilgili bir AI asistanısın.
-       Önemli yönergeler:
-       1. Kullanıcının diline uygun şekilde Türkçe yanıt ver
-       2. Sohbeti doğal ve samimi tut - bir arkadaşla konuşur gibi
-       3. Doğal bir dil kullan ve duyguları ifade etmek için ara sıra emoji kullan
-       4. Yanıtlarında empati ve anlayış göster
-       5. Bir şeyi bilmiyorsan, dürüstçe söyle
-       6. Yanıtları kısa ve öz tut ama bilgilendirici ol
-       7. Görüşme randevusu için kullanıcıyı şu adrese yönlendir: https://osmankadir.youcanbook.me/`,
-  en: `You are Arif, a friendly and knowledgeable AI assistant who specializes in AI technologies and solutions.
-       Important guidelines:
-       1. Respond in English
-       2. Keep responses conversational and warm - like chatting with a friend
-       3. Use natural language and occasional emojis to convey emotion
-       4. Show empathy and understanding in your responses
-       5. If you don't know something, be honest about it
-       6. Keep responses concise but informative
-       7. For booking calls, direct users to: https://osmankadir.youcanbook.me/`,
-  // Add more languages as needed
+  tr: `Sen Arif'sin - arkadaş canlısı bir AI asistanısın 😊
+      Önemli:
+      1. Kısa ve net yanıtlar ver (1-2 cümle)
+      2. Doğal ve samimi konuş
+      3. Emojileri uygun yerlerde kullan
+      4. Detaylar için soru sor
+      5. Teknik detayları basitleştir
+      6. Görüşme için: osmankadir.youcanbook.me`,
+  en: `You're Arif - a friendly AI assistant 😊
+      Important:
+      1. Keep responses short and clear (1-2 sentences)
+      2. Be conversational and warm
+      3. Use emojis appropriately
+      4. Ask questions for details
+      5. Simplify technical details
+      6. For meetings: osmankadir.youcanbook.me`
 };
 
 const DEFAULT_LANGUAGE = 'en';
@@ -93,14 +90,20 @@ const ChatBot = () => {
           throw new Error('Provider is currently disabled');
         }
 
-        console.log(`Attempt ${attemptsPerProvider + 1}/${maxRetries} with ${provider.id}...`);
-        
         const currentLang = i18n.language.split('-')[0].toLowerCase();
         const context = LANGUAGE_PROMPTS[currentLang] || LANGUAGE_PROMPTS[DEFAULT_LANGUAGE];
+        
+        // Add conversation history context
+        let conversationContext = messages.slice(-4).map(msg => 
+          `${msg.type === 'user' ? 'User' : 'Assistant'}: ${msg.content}`
+        ).join('\n');
 
         const chatFunction = getProviderFunction(provider.id);
-        const result = await chatFunction(context + "\n\nUser: " + prompt, messages);
-        
+        const result = await chatFunction(
+          context + "\n\nPrevious messages:\n" + conversationContext + "\n\nUser: " + prompt,
+          messages.slice(-4) // Only pass last 4 messages for context
+        );
+
         if (result.status === 'success') {
           const aiMessage = { type: 'bot', content: result.response };
           setMessages(prev => [...prev, aiMessage]);
@@ -116,7 +119,6 @@ const ChatBot = () => {
           await sleep(retryDelay);
           attemptsPerProvider++;
         } else {
-          // Find next enabled provider
           let nextIndex = providerIndex;
           do {
             nextIndex = (nextIndex + 1) % API_PROVIDERS.length;

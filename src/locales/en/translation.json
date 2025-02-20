@@ -67,11 +67,11 @@
   },
   "chatbot": {
     "title": "AI Assistant",
-    "placeholder": "Type your message...",
+    "placeholder": "Ask me anything...",
     "poweredBy": "Powered by AI",
-    "selectProvider": "Select AI Model",
+    "selectProvider": "Switch AI Model",
     "close": "Close Chat",
-    "errorMessage": "I apologize, but I'm having trouble connecting. Please try another AI model or try again later."
+    "errorMessage": "Oops! 😅 I'm having a little trouble connecting. Let me try another model or give me a moment to catch my breath!"
   },
   "tooltips": {
     "copy": "Copy to Clipboard",

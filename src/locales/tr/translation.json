@@ -62,13 +62,13 @@
   },
   "chat": {
     "title": "AI Asistanı",
-    "placeholder": "Mesajınızı yazın...",
+    "placeholder": "Bana her şeyi sorabilirsin...",
     "send": "Gönder",
     "loading": "YZ düşünüyor...",
     "poweredBy": "AI Destekli",
-    "selectProvider": "AI Modelini Seçin",
+    "selectProvider": "AI Modelini Değiştir",
     "close": "Sohbeti Kapat",
-    "errorMessage": "Üzgünüm, bağlantı kurmakta sorun yaşıyorum. Lütfen başka bir AI modeli deneyin veya daha sonra tekrar deneyin."
+    "errorMessage": "Hay aksi! 😅 Bağlantıda ufak bir sorun var. Başka bir modeli deneyeyim veya bana bir saniye ver!"
   },
   "tooltips": {
     "copy": "Panoya Kopyala",
