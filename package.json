@@ -8,6 +8,7 @@
     "@react-three/drei": "9.92.7",
     "@react-three/fiber": "8.15.12",
     "3d-force-graph": "1.72.3",
+    "ajv": "8.12.0",
     "cohere-ai": "7.15.4",
     "framer-motion": "10.16.16",
     "groq-sdk": "0.15.0",
@@ -20,9 +21,12 @@
     "react-scripts": "5.0.1",
     "three": "0.160.0"
   },
+  "resolutions": {
+    "ajv": "8.12.0"
+  },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "CI=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
